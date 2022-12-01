@@ -1,16 +1,13 @@
+from abc import ABC
 from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-import librosa as lib
-
-from goto import Goto
-goto = Goto()
-
 from particle import Particle
 
 @dataclass
-class AudioDataframe:
+class IAudioDataframe(ABC):
+
     origin: str = None
     audio_multi: np.array(np.float32) = None
     dataframe: pd.DataFrame = None
@@ -22,12 +19,12 @@ class AudioDataframe:
         self.room = tables[1]
         self.mix = tables[2]
         self.ov = tables[3]
-
+    
     def set_audio_segments(self, audio_segments: list) -> None:
         '''Set audio multi into individual AudioSegment.'''
         
         self.audio_segments = audio_segments
-
+    
     def set_particles(self):
         '''Set particles to the audio segment.'''
 
@@ -81,16 +78,3 @@ class AudioDataframe:
             self.count_particle+=1
         time_start = time_end = row['Frm']
         sound_class = row['Class']            
-
-
-# if __name__ == '__main__':
-#     goto.trees()
-#     goto.fwardf('raw_dev','foa_dev')
-#     audio_multi, sr = lib.load('fold6_room1_mix001_ov1.wav',sr=None,mono=False)
-#     goto.bwardf()
-#     goto.fwardf('metadata_dev')
-#     dataframe = pd.read_csv('fold6_room1_mix001_ov1.csv')
-
-#     ac = AudioDataframe(audio_multi, dataframe)
-#     print(ac.dataframe)
-

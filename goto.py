@@ -8,9 +8,6 @@ class Goto:
     
     def cd(self,pth) -> None: # change directory
         os.chdir(pth)
-    
-    def listdir() -> None:
-        return os.listdir()
 
     def get_mainpath(self) -> None:
         return os.path.abspath(os.curdir)
@@ -51,8 +48,9 @@ class Goto:
         self.cd(fwardf)
         return fwardf
     
-    def bwardf(self):
-        self.cd('..')
+    def bwardf(self, repeat: int = 1):
+        for item in range(0,repeat):
+            self.cd('..')
         return self.abspath(print_=False)
 
     def trees(self) -> None: # print trees of current folder

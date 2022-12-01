@@ -46,6 +46,14 @@ def init_mapping_folders(mapping: list) -> None:
             os.mkdir('mix_dev')
         except:
             pass
+        try:
+            os.mkdir('cutmerge_dev')
+        except:
+            pass
+        try:
+            os.mkdir('cut_dev')
+        except:
+            pass
 
 if __name__ == '__main__':
     mapping = [
@@ -65,8 +73,16 @@ if __name__ == '__main__':
 
     # step2 -> OVERLAY 2 audio dataframes
     for m in mapping:
-        overlay_audio_dataframes(audio_dataframes[m[0]-1], audio_dataframes[m[1]-1], subfolder_name=str(m[0]) + '_' + str(m[1]))
+        overlay_audio_dataframes(audio_dataframes[m[0]-1], audio_dataframes[m[1]-1], subfolder_name=str(m[0]) + '_' + str(m[1]), skip_export=False)
     
-    # step3 -> SEPARATION
+    # step4 -> clear audiodataframes
+    audio_dataframes.clear()
 
-    
+    # step3 -> SEPARATION
+    goto.subf('overlay_dev')
+    subfolders = os.listdir()
+    for subfolder in subfolders:
+        history_dataframe = get_history_dataframe(subfolder_name=subfolder)
+        separate_history(history_dataframe,subfolder_name=subfolder)
+
+        
